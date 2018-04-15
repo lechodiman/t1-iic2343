@@ -73,8 +73,8 @@ notpal:
 
 final:
     MOV A, (cambios)
-    CMP A, 2
-    JGE notpal
+    CMP A, 1
+    JNE notpal
 
 end:
     //PRT (letra)
