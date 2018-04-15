@@ -1,0 +1,81 @@
+DATA:
+//HEAD
+letra       0    // Respuesta es 0
+largo       13
+palindromo  "ANA LAVA LANE"
+
+//HEAD
+
+// Demas variables
+izq         0
+der         0
+vara        0
+varb        0
+cambios     0
+
+CODE:
+
+MOV A, (largo) // Partir con der = largo - 1
+SUB A, 1
+MOV (der), A
+for:
+    MOV A, (izq) // Comparacion de indices
+    MOV B, (der)
+    CMP A, B
+    JGE final
+    MOV A, palindromo // Carga de vara y varb
+    ADD A, (der)
+    MOV B, A
+    MOV A, (B)
+    MOV (varb), A
+    MOV A, palindromo
+    ADD A, (izq)
+    MOV B, A
+    MOV A, (B)
+    MOV (vara), A // Fin carga vara y varb
+    INC (izq) // Incrementar y decrementar punteros
+    MOV A, (der)
+    SUB A, 1
+    MOV (der), A
+    MOV A, (vara) // Check if vara is space
+    CMP A, 32
+    JEQ ifvaraspace
+    MOV A, (varb) // Check if varb is space
+    CMP A, 32
+    JEQ ifvarbspace
+    MOV A, (vara) // Check if var a and var b are equals
+    MOV B, (varb)
+    CMP A, B
+    JNE ifvarsnotequal
+JMP for         // Saltamos de nuevo al for
+
+ifvaraspace:
+    INC (der)
+    JMP for
+
+ifvarbspace:
+    MOV A, (izq)
+    SUB A, 1
+    MOV (izq), A
+    JMP for
+
+ifvarsnotequal:
+    INC (cambios)
+    MOV A, (izq)
+    SUB A, 1
+    MOV (letra),A
+    JMP for // Vuelvo al for
+
+notpal:
+    MOV A, 65535
+    MOV (letra), A
+    JMP end
+
+final:
+    MOV A, (cambios)
+    CMP A, 2
+    JGE notpal
+
+end:
+    //PRT (letra)
+
