@@ -1,0 +1,54 @@
+DATA:
+//HEAD
+camino      0    // Respuesta es 3
+columnas    3
+matriz      0
+            0
+            1
+            0
+            0
+            0
+            0
+            1
+            0
+//HEAD
+
+//Demás variables aquí
+indice      0
+largo       0
+i           0
+
+CODE:
+// Escriba su algoritmo aquí.
+// Cuando termine haga JMP end
+
+INC (camino) // Hay al menos un camino con un nodo
+whileilesstcolumnas:
+    MOV A, (i)
+    MOV B, (columnas)
+    CMP A, B
+    JGE for
+    INC (i)
+    MOV A, (largo)
+    ADD A, (columnas)
+    MOV (largo), A
+JMP whileilesstcolumnas
+
+for:
+    MOV A, (indice)     
+    MOV B, (largo)        
+    CMP A,B     
+    JGE end
+    MOV A, matriz  
+    ADD A, (indice) 
+    INC (indice)    
+    MOV B, A        
+    MOV A, (B)
+    ADD A, (camino)   
+    MOV (camino),A    
+JMP for         // Saltamos de nuevo al for
+
+
+// No modificar lo de abajo
+end:
+    //PRT (camino)
